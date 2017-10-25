@@ -16,21 +16,21 @@ public class EnemyBehaviour : MonoBehaviour {
 	void Update () {
 		if(transform.position == _startLocation && _p == null) {
 			var plants = new List<GameObject>();
-			foreach(GameObject p in GameObject.FindGameObjectsWithTag("Plant")) {
-				if(p.transform.localScale.y >= 0.1f) {
+			foreach(GameObject p in PlantManager.Instance.Plants) {
+				if(p.GetComponent<Plant>().IsSeeded) {
 					plants.Add(p);
 				}
 			}
+			if(plants.Count == 0) return;
 			var plant = plants[Random.Range(0, plants.Count-1)];
 			_location = plant.transform.position;
 			_p = plant.transform;
 		}
 		else {
 			transform.position = Vector3.MoveTowards(transform.position, _location, 0.1f);
-			if(Vector3.Distance(transform.position, _location) < 1f) {
-				_p.localScale = new Vector3(1f, 0.01f, 1f);
-				_p.gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+			if(Vector3.Distance(transform.position, _location) < 1f && _p != null) {
 				_location = _startLocation;
+				_p.GetComponent<Plant>().UnSeed();
 				_p = null;
 			}
 			if(transform.position == _startLocation) {

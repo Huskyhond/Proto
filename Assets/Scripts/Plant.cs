@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Plant : MonoBehaviour {
 	public bool IsSeeded { get { return _seeded; } }
-	public bool _seeded = false;
+	private bool _seeded = false;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,6 +13,12 @@ public class Plant : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public virtual void UnSeed() {
+		_seeded = false;
+		transform.localScale = new Vector3(1f, 0.01f, 1f);
+		GetComponent<Renderer>().material.SetColor("_Color", Color.red);
 	}
 
 	public virtual void Seed() {
