@@ -42,19 +42,19 @@ public class Player : MonoBehaviour {
 	void Update () {
 		if(_onFloor) {
 			_rb.velocity = Vector3.zero;
-			if(Input.GetKey(_inputs.MoveUpKey))
+			if(Input.GetKey(_inputs.MoveUpKey) || Input.GetAxis("AxisY" + playerId) < -0.1f)
 				Move(Vector3.forward);
-			if(Input.GetKey(_inputs.MoveDownKey))
+			if(Input.GetKey(_inputs.MoveDownKey) || Input.GetAxis("AxisY" + playerId) > 0.1f)
 				Move(Vector3.back);
-			if(Input.GetKey(_inputs.MoveLeftKey))
+			if(Input.GetKey(_inputs.MoveLeftKey) || Input.GetAxis("AxisX" + playerId) < -0.1f)
 				Move(Vector3.left);
-			if(Input.GetKey(_inputs.MoveRightKey))
+			if(Input.GetKey(_inputs.MoveRightKey) || Input.GetAxis("AxisX" + playerId) > 0.1f)
 				Move(Vector3.right);
-			if(Input.GetKeyDown(_inputs.DropItemKey)) {
+			if(Input.GetKeyDown(_inputs.DropItemKey) || Input.GetButtonDown("Release" + playerId)) {
 				if(HasPickable) _pickable.Drop();
 				_pickable = null;
 			}
-			if(Input.GetKeyDown(_inputs.TeleportItemKey)) {
+			if(Input.GetKeyDown(_inputs.TeleportItemKey) || Input.GetButtonDown("Throw" + playerId)) {
 				if(HasPickable) _pickable.Teleport(this);
 				_pickable = null;
 			}
