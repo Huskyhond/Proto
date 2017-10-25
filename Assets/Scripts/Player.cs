@@ -37,6 +37,10 @@ public class Player : MonoBehaviour {
 		_pickable.gameObject.transform.parent = transform;
 		_pickable.transform.position = transform.position + (Vector3.up * 2f);
 	}
+
+	public void Respawn() {
+		transform.position = _startLocation;	
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -60,7 +64,7 @@ public class Player : MonoBehaviour {
 			}
 		}
 		if(transform.position.y < -3f) {
-			transform.position = _startLocation;
+			Respawn();
 		}
 	}
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pickable : MonoBehaviour {
 
-	public enum PickableType { SEED, WATER_CONTAINER }
+	public enum PickableType { SEED, WATER_CONTAINER, MUSHROOM, TUSHROOM }
 	public PickableType Type;
 
 	private Vector3 _startLocation;
@@ -16,8 +16,12 @@ public class Pickable : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(transform.position.y < -3f) {
-			transform.position = _startLocation;
+			Respawn();
 		}
+	}
+
+	public void Respawn() {
+		transform.position = _startLocation;	
 	}
 
 	public void Drop(Player player = null) {
@@ -29,10 +33,18 @@ public class Pickable : MonoBehaviour {
 	public void Teleport(Player player = null) {
 		GetComponent<Rigidbody>().isKinematic = false;
 		transform.parent = null;
-		if(player.playerId == 1)
-			GetComponent<Rigidbody>().velocity = new Vector3(8f, 8f, 0f);
-		else
-			GetComponent<Rigidbody>().velocity = new Vector3(-8f, 8f, 0f);
+		if(Type == PickableType.MUSHROOM || Type == PickableType.TUSHROOM) {
+			if(player.playerId == 1)
+				GetComponent<Rigidbody>().velocity = new Vector3(4f, 4f, 0f);
+			else
+				GetComponent<Rigidbody>().velocity = new Vector3(-4f, 4f, 0f);
+		}
+		else {
+			if(player.playerId == 1)
+				GetComponent<Rigidbody>().velocity = new Vector3(8f, 8f, 0f);
+			else
+				GetComponent<Rigidbody>().velocity = new Vector3(-8f, 8f, 0f);
+		}
 	}
 
 	void OnCollisionEnter(Collision collision) {
