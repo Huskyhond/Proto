@@ -29,9 +29,7 @@ public class EnemyBehaviour : MonoBehaviour {
 		else {
 			transform.position = Vector3.MoveTowards(transform.position, _location, 0.1f);
 			if(Vector3.Distance(transform.position, _location) < 1f && _p != null) {
-				_location = _startLocation;
-				_p.GetComponent<Plant>().UnSeed();
-				_p = null;
+				StartCoroutine(StartFeeding());
 			}
 			if(transform.position == _startLocation) {
 				_p = null;
@@ -39,4 +37,22 @@ public class EnemyBehaviour : MonoBehaviour {
 			}
 		}
 	}
+
+	IEnumerator StartFeeding() {
+		yield return new WaitForSeconds(2f);
+		if(Vector3.Distance(transform.position, _location) < 1f && _p != null) {
+			_location = _startLocation;
+			_p.GetComponent<Plant>().UnSeed();
+			_p = null;
+		}
+	}
+	
+	void OnCollisionEnter(Collision collision) {
+		var player = collision.gameObject.GetComponent<Player>();
+		if(player) {
+			_location = _startLocation;
+			_p = null;
+		}
+	}
+
 }

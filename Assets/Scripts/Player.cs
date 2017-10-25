@@ -17,10 +17,13 @@ public class Player : MonoBehaviour {
 	public Pickable Pickable { get { return _pickable; } }
 	[SerializeField] private PlayerKeys _inputs = new PlayerKeys();
 	[Range(1, 100)] [SerializeField] private float _movementSpeed = 10f;
+	private bool _onFloor = false;
 	private Pickable _pickable;
 	private Rigidbody _rb;
+	private Vector3 _startLocation;
 	// Use this for initialization
 	void Start () {
+		_startLocation = transform.position;
 		_rb = GetComponent<Rigidbody>();
 	}
 
@@ -37,22 +40,40 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		_rb.velocity = Vector3.zero;
-		if(Input.GetKey(_inputs.MoveUpKey))
-			Move(Vector3.forward);
-		if(Input.GetKey(_inputs.MoveDownKey))
-			Move(Vector3.back);
-		if(Input.GetKey(_inputs.MoveLeftKey))
-			Move(Vector3.left);
-		if(Input.GetKey(_inputs.MoveRightKey))
-			Move(Vector3.right);
-		if(Input.GetKeyDown(_inputs.DropItemKey)) {
-			if(HasPickable) _pickable.Drop();
-			_pickable = null;
+		if(_onFloor) {
+			_rb.velocity = Vector3.zero;
+			if(Input.GetKey(_inputs.MoveUpKey))
+				Move(Vector3.forward);
+			if(Input.GetKey(_inputs.MoveDownKey))
+				Move(Vector3.back);
+			if(Input.GetKey(_inputs.MoveLeftKey))
+				Move(Vector3.left);
+			if(Input.GetKey(_inputs.MoveRightKey))
+				Move(Vector3.right);
+			if(Input.GetKeyDown(_inputs.DropItemKey)) {
+				if(HasPickable) _pickable.Drop();
+				_pickable = null;
+			}
+			if(Input.GetKeyDown(_inputs.TeleportItemKey)) {
+				if(HasPickable) _pickable.Teleport(this);
+				_pickable = null;
+			}
 		}
-		if(Input.GetKeyDown(_inputs.TeleportItemKey)) {
-			if(HasPickable) _pickable.Teleport(this);
-			_pickable = null;
+		if(transform.position.y < -3f) {
+			transform.position = _startLocation;
 		}
 	}
+
+	void OnCollisionEnter(Collision collision) {
+		if(collision.gameObject.layer == LayerMask.NameToLayer("Island")) {
+			_onFloor = true;
+		}
+	}
+
+	void OnCollisionExit(Collision collision) {
+		if(collision.gameObject.layer == LayerMask.NameToLayer("Island")) {
+			_onFloor = false;
+		}
+	}
+
 }

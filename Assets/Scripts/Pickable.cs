@@ -6,14 +6,18 @@ public class Pickable : MonoBehaviour {
 
 	public enum PickableType { SEED, WATER_CONTAINER }
 	public PickableType Type;
+
+	private Vector3 _startLocation;
 	// Use this for initialization
 	void Start () {
-		
+		_startLocation = transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(transform.position.y < -3f) {
+			transform.position = _startLocation;
+		}
 	}
 
 	public void Drop(Player player = null) {
