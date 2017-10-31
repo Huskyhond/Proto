@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pickable : MonoBehaviour {
 
-	public enum PickableType { SEED, WATER_CONTAINER, MUSHROOM, TUSHROOM }
+	public enum PickableType { PINK_SEED, GOLD_SEED, WATER_CONTAINER, PINK_MUSHROOM, GOLD_MUSHROOM }
 	public PickableType Type;
 
 	private Vector3 _startLocation;
@@ -24,17 +24,21 @@ public class Pickable : MonoBehaviour {
 		transform.position = _startLocation;	
 	}
 
-	public void Drop(Player player = null) {
-		GetComponent<Rigidbody>().isKinematic = false;
-		GetComponent<Rigidbody>().velocity = transform.forward + Vector3.up * 5f;
-		transform.parent = null;
-	}
+    public void Drop(Player player = null) {
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Rigidbody>().velocity = transform.forward + Vector3.up * 5f;
+        transform.parent = null;
+        if (Type == PickableType.PINK_MUSHROOM || Type == PickableType.GOLD_MUSHROOM) {
+            EnemyMushroom.mushrooms.Add(this.gameObject);
+        }
+    }
 
 	public void Teleport(Player player = null) {
 		GetComponent<Rigidbody>().isKinematic = false;
 		transform.parent = null;
-		if(Type == PickableType.MUSHROOM || Type == PickableType.TUSHROOM) {
-			if(player.playerId == 1)
+		if(Type == PickableType.PINK_MUSHROOM || Type == PickableType.GOLD_MUSHROOM) {
+            EnemyMushroom.mushrooms.Add(this.gameObject);
+                if (player.playerId == 1)
 				GetComponent<Rigidbody>().velocity = new Vector3(4f, 4f, 0f);
 			else
 				GetComponent<Rigidbody>().velocity = new Vector3(-4f, 4f, 0f);
@@ -52,7 +56,11 @@ public class Pickable : MonoBehaviour {
 		if(player) {
 			if(!player.HasPickable) {
 				player.Pickup(this);
-			}
+                if (Type == PickableType.PINK_MUSHROOM || Type == PickableType.GOLD_MUSHROOM) {
+                    EnemyMushroom.mushrooms.Remove(this.gameObject);
+                }
+
+            }
 		}
 	}
 

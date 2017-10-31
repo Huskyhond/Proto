@@ -25,9 +25,10 @@ public class Bridge : MonoBehaviour {
 		}
 		else if(collision.gameObject.GetComponent<Pickable>()) {
 			var pickable = collision.gameObject.GetComponent<Pickable>();
-			if(pickable.Type == Pickable.PickableType.TUSHROOM || pickable.Type == Pickable.PickableType.MUSHROOM) {
+			if(pickable.Type == Pickable.PickableType.PINK_MUSHROOM || pickable.Type == Pickable.PickableType.GOLD_MUSHROOM) {
 				float y = transform.position.y < 0f ? 0.2f : 0f; 
 				transform.position += new Vector3(0f, y, 0f);
+                EnemyMushroom.mushrooms.Remove(pickable.gameObject);
 				Destroy(collision.gameObject);
 			}
 			else {
