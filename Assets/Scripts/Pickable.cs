@@ -21,7 +21,7 @@ public class Pickable : MonoBehaviour {
 	}
 
 	public void Respawn() {
-		transform.position = _startLocation;	
+		transform.position = _startLocation;
 	}
 
 	public void Drop(Player player = null) {
