@@ -21,7 +21,6 @@ public class OnJoinedInstantiate : MonoBehaviour
                 random.y = 0;
                 random = random.normalized;
                 Vector3 itempos = spawnPos + this.PositionOffset * random;
-                
                 GameObject player = PhotonNetwork.Instantiate(o.name, itempos, Quaternion.identity, 0);
                 player.GetComponentInChildren<Camera>().enabled = true;
                 player.GetComponentInChildren<AudioListener>().enabled = true;
@@ -46,6 +45,8 @@ public class OnJoinedInstantiate : MonoBehaviour
     public void OnPhotonPlayerConnected(PhotonPlayer photonPlayer) {
         Debug.Log("Player connected");
         StartCoroutine(TagPlayers(true));
+        // Second player connected.
+        EnemyManager.Instance.GameStart();
     }
 
 }

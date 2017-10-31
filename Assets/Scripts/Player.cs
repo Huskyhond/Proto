@@ -24,7 +24,6 @@ public class Player : Photon.MonoBehaviour {
 	private Pickable _pickable;
 	private Rigidbody _rb;
 	private Vector3 _startLocation;
-	private Vector3 _wantedPosition;
 	private bool _dropPressed, _craftMenuPressed, _teleportPressed;
 	// Use this for initialization
 	void Start () {
@@ -35,15 +34,12 @@ public class Player : Photon.MonoBehaviour {
 
 	void OnPhotonSerializeView(PhotonStream	stream,PhotonMessageInfo info) {
 		if(stream.isReading) {
-			Vector3 position = (Vector3) stream.ReceiveNext();
 			bool dropPressed = (bool) stream.ReceiveNext();
 			bool craftMenuPressed = (bool) stream.ReceiveNext();
 			bool teleportPressed = (bool) stream.ReceiveNext();
 			HandleButtons(dropPressed, craftMenuPressed, teleportPressed);
-			_wantedPosition = position;
 		}
 		if(stream.isWriting) {
-			stream.SendNext(transform.position);
 			stream.SendNext(_dropPressed);
 			stream.SendNext(_craftMenuPressed);
 			stream.SendNext(_teleportPressed);
@@ -76,10 +72,8 @@ public class Player : Photon.MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!IsLocal && _wantedPosition != null) {
-			transform.position = Vector3.MoveTowards(transform.position, _wantedPosition, 0.5f);
-		}
 		if(!IsLocal) return;
+		if(!photonView.isMine) return;
 		if(_onFloor) {
 			_rb.velocity = Vector3.zero;
 			if(Input.GetKey(_inputs.MoveUpKey) || Input.GetAxis("AxisY" + 1) < -0.1f)

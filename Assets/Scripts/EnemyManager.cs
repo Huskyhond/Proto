@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour {
 
-	[SerializeField] private GameObject[] _enemies;
+	[SerializeField] private GameObject[] _enemiesPositions;
+	public GameObject[] Enemies;
 
 	public static EnemyManager Instance;
 
@@ -16,6 +17,11 @@ public class EnemyManager : MonoBehaviour {
 		}
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
+	}
+
+	public void GameStart() {
+		foreach(GameObject enemyPosition in _enemiesPositions)
+			PhotonNetwork.Instantiate("Bird", enemyPosition.transform.position, Quaternion.identity, 0);
 	}
 	
 	// Update is called once per frame

@@ -27,7 +27,7 @@ public class EnemyBehaviour : MonoBehaviour {
 			_p = plant.transform;
 		}
 		else {
-			transform.position = Vector3.MoveTowards(transform.position, _location, 0.1f);
+			transform.position = Vector3.MoveTowards(transform.position, _location, Time.deltaTime);
 			if(Vector3.Distance(transform.position, _location) < 1f && _p != null) {
 				StartCoroutine(StartFeeding());
 			}
