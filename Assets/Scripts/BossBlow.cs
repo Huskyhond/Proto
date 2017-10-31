@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BossBlow : MonoBehaviour {
 
+    [SerializeField] private AudioSource blow;
     [SerializeField] private float power = 100f;
 	// Use this for initialization
 	void Start () {
@@ -15,6 +16,13 @@ public class BossBlow : MonoBehaviour {
 		
 	}
 
+    void OnTriggerEnter(Collider collision) {
+        var player = collision.GetComponent<Player>();
+        if (player) {
+            blow.Play();
+        }
+    }
+
     void OnTriggerStay(Collider collision) {
         var player = collision.GetComponent<Player>();
         if (!player) return;
@@ -24,5 +32,9 @@ public class BossBlow : MonoBehaviour {
         if (player.playerId == 2) {
             player.GetComponent<Rigidbody>().AddForce(new Vector3(power, 0, 0), ForceMode.Force);
         }
+    }
+
+    void OnTriggerExit() {
+        blow.Stop();
     }
 }

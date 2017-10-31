@@ -5,8 +5,9 @@ using UnityEngine;
 public class BossEat : MonoBehaviour {
 
     [SerializeField] private AudioSource yumyum;
-    [SerializeField] private int winScore;
+    [SerializeField] private int winScore = 5;
     private int score;
+    [SerializeField] private GameObject _uiVictory;
     // Use this for initialization
     void Start () {
 		
@@ -14,13 +15,7 @@ public class BossEat : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.rotation.eulerAngles, out hit)) {
-            Debug.Log(hit);
-            if (hit.collider.GetComponent<Player>()) {
 
-            }
-        }
 	}
 
     void OnTriggerEnter(Collider collision) {
@@ -41,6 +36,7 @@ public class BossEat : MonoBehaviour {
     }
 
     void win() {
-
+        _uiVictory.SetActive(true);
+        Time.timeScale = 0f;
     }
 }
