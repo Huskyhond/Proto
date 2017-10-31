@@ -57,7 +57,10 @@ public class Plant : MonoBehaviour {
 		yield return new WaitForSeconds(5f);
 		if(transform.localScale.y >= 5f) {
 			UnSeed();
-            EnemyMushroom.mushrooms.Add(Instantiate(_seedlingPrefab, transform.position, Quaternion.identity));
+            var mushroom = Instantiate(_seedlingPrefab, transform.position, Quaternion.identity);
+            if (EnemyMushroom.mushrooms != null) {
+                EnemyMushroom.mushrooms.Add(mushroom);
+            }
 		}
 	}
 
