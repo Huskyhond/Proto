@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pickable : Photon.MonoBehaviour {
+public class Pickable : MonoBehaviour{
 
 	public enum PickableType { SEED, WATER_CONTAINER, MUSHROOM, TUSHROOM }
 	public PickableType Type;
@@ -20,16 +20,6 @@ public class Pickable : Photon.MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position, _wantedPosition, 0.5f);
 		if(transform.position.y < -3f) {
 			Respawn();
-		}
-	}
-
-	void OnPhotonSerializeView(PhotonStream	stream,PhotonMessageInfo info) {
-		if(stream.isReading) {
-			Debug.Log((int)stream.ReceiveNext());
-			//_wantedPosition = position;
-		}
-		if(stream.isWriting) {
-			stream.SendNext(transform.position.x);
 		}
 	}
 

@@ -25,6 +25,7 @@ public class Player : Photon.MonoBehaviour {
 	private Rigidbody _rb;
 	private Vector3 _startLocation;
 	private Vector3 _wantedPosition;
+	private bool _dropPressed, _craftMenuPressed, _teleportPressed;
 	// Use this for initialization
 	void Start () {
 		_craftMenu = GetComponentInChildren<CraftMenu>();
@@ -35,11 +36,27 @@ public class Player : Photon.MonoBehaviour {
 	void OnPhotonSerializeView(PhotonStream	stream,PhotonMessageInfo info) {
 		if(stream.isReading) {
 			Vector3 position = (Vector3) stream.ReceiveNext();
+			bool dropPressed = (bool) stream.ReceiveNext();
+			bool craftMenuPressed = (bool) stream.ReceiveNext();
+			bool teleportPressed = (bool) stream.ReceiveNext();
+			HandleButtons(dropPressed, craftMenuPressed, teleportPressed);
 			_wantedPosition = position;
 		}
 		if(stream.isWriting) {
 			stream.SendNext(transform.position);
+			stream.SendNext(_dropPressed);
+			stream.SendNext(_craftMenuPressed);
+			stream.SendNext(_teleportPressed);
+			_dropPressed = _craftMenuPressed = _teleportPressed = false;
 		}
+	}
+
+	void HandleButtons(bool dropPressed, bool craftMenuPressed, bool teleportPressed) {
+		if(dropPressed) Drop();
+		if(craftMenuPressed) {
+			//TODO: SHOW TOOLTIP
+		}
+		if(teleportPressed) Teleport();
 	}
 
 	public void Move(Vector3 direction) {
@@ -65,24 +82,25 @@ public class Player : Photon.MonoBehaviour {
 		if(!IsLocal) return;
 		if(_onFloor) {
 			_rb.velocity = Vector3.zero;
-			if(Input.GetKey(_inputs.MoveUpKey) || Input.GetAxis("AxisY" + playerId) < -0.1f)
+			if(Input.GetKey(_inputs.MoveUpKey) || Input.GetAxis("AxisY" + 1) < -0.1f)
 				Move(Vector3.forward);
-			if(Input.GetKey(_inputs.MoveDownKey) || Input.GetAxis("AxisY" + playerId) > 0.1f)
+			if(Input.GetKey(_inputs.MoveDownKey) || Input.GetAxis("AxisY" + 1) > 0.1f)
 				Move(Vector3.back);
-			if(Input.GetKey(_inputs.MoveLeftKey) || Input.GetAxis("AxisX" + playerId) < -0.1f)
+			if(Input.GetKey(_inputs.MoveLeftKey) || Input.GetAxis("AxisX" + 1) < -0.1f)
 				Move(Vector3.left);
-			if(Input.GetKey(_inputs.MoveRightKey) || Input.GetAxis("AxisX" + playerId) > 0.1f)
+			if(Input.GetKey(_inputs.MoveRightKey) || Input.GetAxis("AxisX" + 1) > 0.1f) 
 				Move(Vector3.right);
-			if(Input.GetKeyDown(_inputs.DropItemKey) || Input.GetButtonDown("Release" + playerId)) {
-				if(HasPickable) _pickable.Drop();
-				_pickable = null;
+			if(Input.GetKeyDown(_inputs.DropItemKey) || Input.GetButtonDown("Release" + 1)) {
+				_dropPressed = true;
+				Drop();
 			}
-			if(Input.GetKeyDown(_inputs.CraftMenuKey) || Input.GetButtonDown("Fire" + playerId)) {
+			if(Input.GetKeyDown(_inputs.CraftMenuKey) || Input.GetButtonDown("Fire" + 1)) {
+				_craftMenuPressed = true;
 				_craftMenu.ToggleMenu();
 			}
-			if(Input.GetKeyDown(_inputs.TeleportItemKey) || Input.GetButtonDown("Throw" + playerId)) {
-				if(HasPickable) _pickable.Teleport(this);
-				_pickable = null;
+			if(Input.GetKeyDown(_inputs.TeleportItemKey) || Input.GetButtonDown("Throw" + 1)) {
+				_teleportPressed = true;
+				Teleport();
 			}
 		}
 		if(transform.position.y < -3f) {
@@ -90,15 +108,25 @@ public class Player : Photon.MonoBehaviour {
 		}
 	}
 
+	void Drop() {
+		if(HasPickable) _pickable.Drop();
+		_pickable = null;
+	}
+
+	void Teleport() {
+		if(HasPickable) _pickable.Teleport(this);
+		_pickable = null;
+	}
+
 	void OnCollisionEnter(Collision collision) {
 		if(collision.gameObject.layer == LayerMask.NameToLayer("Island")) {
-			//_onFloor = true;
+			_onFloor = true;
 		}
 	}
 
 	void OnCollisionExit(Collision collision) {
 		if(collision.gameObject.layer == LayerMask.NameToLayer("Island")) {
-			//_onFloor = false;
+			_onFloor = false;
 		}
 	}
 
