@@ -9,10 +9,14 @@ public class Plant : MonoBehaviour
     [SerializeField] private GameObject _seedlingPrefab;
     [SerializeField] private GameObject _seedType;
 
+    GameManager gameManager;
+
     private bool _isFullyGrown = false;
     
     void Start()
     {
+        gameManager = GameManager.Instance;
+
         ColorizePatch();
     }
 
@@ -70,6 +74,8 @@ public class Plant : MonoBehaviour
         {
             UnSeed();
             var mushroom = Instantiate(_seedlingPrefab, transform.position, Quaternion.identity);
+            gameManager.ItemsOnGround.Add(mushroom);
+
             if (EnemyMushroom.mushrooms != null) {
                 EnemyMushroom.mushrooms.Add(mushroom);
             }
@@ -85,6 +91,7 @@ public class Plant : MonoBehaviour
             !IsSeeded)
         {
             Seed();
+            gameManager.ItemsOnGround.Remove(player.Pickable.gameObject);
             Destroy(player.Pickable.gameObject);
             player.RemovePickable();
         }

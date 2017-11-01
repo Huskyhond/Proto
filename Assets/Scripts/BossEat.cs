@@ -6,22 +6,8 @@ public class BossEat : MonoBehaviour
 
     [SerializeField] private AudioSource yumyum;
     [SerializeField] private int winScore = 5;
-    [SerializeField] private GameObject _uiVictory;
-    [SerializeField] private GameObject _loseText;
-    [SerializeField] private Text _timerText;
-    [SerializeField] private float _timer = 120f;
 
     private int _score;
-
-    private void Update()
-    {
-        if (_timer <= 0)
-            Lose();
-
-        _timer -= Time.deltaTime;
-        int timer = (int)_timer;
-        _timerText.text = timer.ToString();
-    }
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -35,23 +21,12 @@ public class BossEat : MonoBehaviour
         if (pickable.Type != Pickable.PickableType.PINK_MUSHROOM) return;
 
         yumyum.Play();
+        GameManager.Instance.ItemsOnGround.Remove(collision.gameObject);
         Destroy(collision.gameObject);
         _score++;
         if (_score >= winScore)
         {
-            Win();
+            GameManager.Instance.Victory();
         }
-    }
-
-    private void Win()
-    {
-        _uiVictory.SetActive(true);
-        Time.timeScale = 0f;
-    }
-
-    private void Lose()
-    {
-        _loseText.SetActive(true);
-        Time.timeScale = 0f;
     }
 }
