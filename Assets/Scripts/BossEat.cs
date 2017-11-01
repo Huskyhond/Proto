@@ -19,7 +19,8 @@ public class BossEat : MonoBehaviour
             Lose();
 
         _timer -= Time.deltaTime;
-        _timerText.text = _timer.ToString();
+        int timer = (int)_timer;
+        _timerText.text = timer.ToString();
     }
 
     private void OnTriggerEnter(Collider collision)

@@ -54,9 +54,9 @@ public class Plant : MonoBehaviour
 
     public virtual void Grow()
     {
-        transform.localScale += new Vector3(0f, 0.1f, 0f);
-        transform.localScale = new Vector3(1f, Mathf.Min(transform.localScale.y, 5f), 1f);
-        if (transform.localScale.y >= 5f)
+        transform.localScale += new Vector3(0f, 0.05f, 0f);
+        transform.localScale = new Vector3(1f, Mathf.Min(transform.localScale.y, 2.5f), 1f);
+        if (transform.localScale.y >= 2.5f)
         {
             StartCoroutine(StartSeedling());
         }
@@ -66,7 +66,7 @@ public class Plant : MonoBehaviour
     {
         _isFullyGrown = true;
         yield return new WaitForSeconds(5f);
-        if (transform.localScale.y >= 5f)
+        if (transform.localScale.y >= 2.5f)
         {
             UnSeed();
             var mushroom = Instantiate(_seedlingPrefab, transform.position, Quaternion.identity);

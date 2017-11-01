@@ -1,28 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SeedGiver : MonoBehaviour {
+public class SeedGiver : MonoBehaviour
+{
+    [SerializeField] private RectTransform BackgroundBar;
+    [SerializeField] private RectTransform SeedBar;
 
-    [SerializeField] private GameObject seed;
-    [SerializeField] private int amount = 30;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField] private GameObject Seed;
+    [SerializeField] private int Amount = 30;
 
-    void OnTriggerEnter(Collider collision) {
+    private int _seedsRemaining;
+
+    private void Start()
+    {
+        _seedsRemaining = Amount;
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
         var player = collision.gameObject.GetComponent<Player>();
         if (!player) return;
         if (player.HasPickable) return;
-        if (amount > 0) {
-            Instantiate(seed, transform.position, transform.rotation);
-            amount--;
+        if (_seedsRemaining > 0)
+        {
+            Vector3 newPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+            Instantiate(Seed, newPos, transform.rotation);
+            _seedsRemaining--;
+
+            SeedBar.sizeDelta = new Vector2(Amount, SeedBar.sizeDelta.y);
         }
     }
 }
