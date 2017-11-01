@@ -12,16 +12,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float TimeLimit = 120f;
 
     public List<GameObject> ItemsOnGround;
-    public bool HasRemainingSeed1 = true;
-    public bool HasRemainingSeed2 = true;
+    [HideInInspector] public bool HasRemainingSeed1 = true;
+    [HideInInspector] public bool HasRemainingSeed2 = true;
 
     [SerializeField] private Plant[] Farmlands;
     private bool _seedGrowing = false;
-
-    //* Seed boxes empty
-    //* No seeds on ground
-    //* No mushrooms left
-    //* No mushrooms growing
 
     private void Awake()
     {
@@ -41,7 +36,9 @@ public class GameManager : MonoBehaviour
         TimeLimit -= Time.deltaTime;
         int timer = (int)TimeLimit;
         TimerText.text = timer.ToString();
-        
+
+        CheckForSeedsGrowing();
+
         if (TimeLimit <= 0 || (!HasRemainingSeed1 && !HasRemainingSeed2 && ItemsOnGround.Count == 0 && !_seedGrowing))
             Defeat();
     }
