@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class PlayerKeys
@@ -73,6 +74,8 @@ public class Player : MonoBehaviour
                 if (HasPickable) _pickable.Teleport(this);
                 RemovePickable();
             }
+            if (Input.GetKeyDown(KeyCode.Escape))
+                SceneManager.LoadScene("bossfight");
         }
         if (transform.position.y < -3f)
         {

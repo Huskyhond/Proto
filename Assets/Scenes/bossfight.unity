@@ -2843,7 +2843,7 @@ MonoBehaviour:
   BackgroundBar: {fileID: 788126226}
   SeedBar: {fileID: 1535141793}
   Seed: {fileID: 1241545728085084, guid: 21eb014e4dad8c348ac44140885a9e13, type: 2}
-  Amount: 5
+  Amount: 20
 --- !u!4 &1239239511 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4196028084717306, guid: 0b054356ce925634183cb5e92cceb9fc,
@@ -3130,7 +3130,7 @@ MonoBehaviour:
   BackgroundBar: {fileID: 254097874}
   SeedBar: {fileID: 2043522653}
   Seed: {fileID: 1241545728085084, guid: 5e0f599a5244f8d4fa3f92ab8aa7c72b, type: 2}
-  Amount: 5
+  Amount: 20
 --- !u!4 &1425027467 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4196028084717306, guid: 0b054356ce925634183cb5e92cceb9fc,
