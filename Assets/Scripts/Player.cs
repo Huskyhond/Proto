@@ -75,12 +75,10 @@ public class Player : MonoBehaviour
                 RemovePickable();
             }
             if (Input.GetKeyDown(KeyCode.Escape))
-                SceneManager.LoadScene("bossfight");
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         if (transform.position.y < -3f)
-        {
             Respawn();
-        }
     }
 
     public void Move(Vector3 direction)

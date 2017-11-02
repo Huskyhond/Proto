@@ -1435,6 +1435,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 593571637}
+--- !u!1 &593943262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 593943263}
+  - component: {fileID: 593943265}
+  - component: {fileID: 593943264}
+  m_Layer: 5
+  m_Name: Score Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &593943263
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 593943262}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -504.5, y: 135.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 784196918}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -15}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &593943264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 593943262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Score: 0/0'
+--- !u!222 &593943265
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 593943262}
 --- !u!1 &631221923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1805,6 +1879,7 @@ RectTransform:
   - {fileID: 986475943}
   - {fileID: 593571638}
   - {fileID: 659264166}
+  - {fileID: 593943263}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2843,7 +2918,7 @@ MonoBehaviour:
   BackgroundBar: {fileID: 788126226}
   SeedBar: {fileID: 1535141793}
   Seed: {fileID: 1241545728085084, guid: 21eb014e4dad8c348ac44140885a9e13, type: 2}
-  Amount: 20
+  Amount: 10
 --- !u!4 &1239239511 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4196028084717306, guid: 0b054356ce925634183cb5e92cceb9fc,
@@ -3130,7 +3205,7 @@ MonoBehaviour:
   BackgroundBar: {fileID: 254097874}
   SeedBar: {fileID: 2043522653}
   Seed: {fileID: 1241545728085084, guid: 5e0f599a5244f8d4fa3f92ab8aa7c72b, type: 2}
-  Amount: 20
+  Amount: 10
 --- !u!4 &1425027467 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4196028084717306, guid: 0b054356ce925634183cb5e92cceb9fc,
@@ -4304,6 +4379,7 @@ GameObject:
   - component: {fileID: 1957058074}
   - component: {fileID: 1957058073}
   - component: {fileID: 1957058072}
+  - component: {fileID: 1957058076}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -4378,6 +4454,18 @@ Transform:
   m_Father: {fileID: 1043222051}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1957058076
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1957058071}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.2, z: 0.5}
+  m_Center: {x: 0, y: 1.03, z: 0}
 --- !u!1 &2038298375
 GameObject:
   m_ObjectHideFlags: 0
@@ -4408,7 +4496,9 @@ MonoBehaviour:
   VictoryText: {fileID: 986475942}
   LoseText: {fileID: 593571637}
   TimerText: {fileID: 659264167}
+  ScoreText: {fileID: 593943264}
   TimeLimit: 120
+  ScoreToWin: 5
   ItemsOnGround: []
   HasRemainingSeed1: 1
   HasRemainingSeed2: 1

@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject VictoryText;
     [SerializeField] private GameObject LoseText;
     [SerializeField] private Text TimerText;
+    [SerializeField] private Text ScoreText;
     [SerializeField] private float TimeLimit = 120f;
+    [SerializeField] private int ScoreToWin = 5;
 
     public List<GameObject> ItemsOnGround;
     [HideInInspector] public bool HasRemainingSeed1 = true;
@@ -17,15 +19,20 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Plant[] Farmlands;
     private bool _seedGrowing = false;
+    private int _currentScore = 0;
 
     private void Awake()
     {
+        Time.timeScale = 1f;
+
         if (Instance == null)
             Instance = this;
         else if (Instance != this)
             Destroy(gameObject);
 
         ItemsOnGround = new List<GameObject>();
+
+        SetScoreText();
     }
 
     private void Update()
@@ -67,5 +74,20 @@ public class GameManager : MonoBehaviour
             else
                 _seedGrowing = false;
         }
+    }
+
+    public void IncreaseScore()
+    {
+        _currentScore++;
+
+        SetScoreText();
+
+        if (_currentScore >= ScoreToWin)
+            Victory();
+    }
+
+    private void SetScoreText()
+    {
+        ScoreText.text = "Score: " + _currentScore + "/" + ScoreToWin;
     }
 }
