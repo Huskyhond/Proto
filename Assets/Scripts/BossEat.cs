@@ -5,7 +5,6 @@ public class BossEat : MonoBehaviour
 {
 
     [SerializeField] private AudioSource yumyum;
-    [SerializeField] private int winScore = 5;
 
     private GameManager gameManager;
     private int _score;
